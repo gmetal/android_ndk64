@@ -13,8 +13,8 @@ Contains:
     Android 4.4W
     Support repositories and libraries
 
-Pull from gmetal/android_ndk64: docker pull gmetal/android_ndk64
+Pull from gmetal/android-ndk64: docker pull gmetal/android-ndk64
 
-Run it with: docker run -i -t gmetal/android_ndk64 /bin/bash
+Run it with: docker run -i -t gmetal/android-ndk64 /bin/bash
 
 Based on ahazem/android image.
