@@ -37,9 +37,10 @@ RUN wget http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
 RUN tar -xvzf android-sdk_r23.0.2-linux.tgz
 RUN mv android-sdk-linux /usr/local/android-sdk
 # Install android ndk
-RUN wget http://dl.google.com/android/ndk/android-ndk64-r10b-linux-x86_64.tar.bz2
-RUN tar -xvjf android-ndk64-r10b-linux-x86_64.tar.bz2
-RUN mv android-ndk-r10b /usr/local/android-ndk
+RUN wget http://dl.google.com/android/ndk/android-ndk-r10c-linux-x86_64.bin
+RUN sudo apt-get update && apt-get install  -y p7zip
+RUN mv android-ndk-r10c-linux-x86_64.bin android-ndk-r10c-linux-x86_64.bin.7z && p7zip -d android-ndk-r10c-linux-x86_64.bin.7z
+RUN mv android-ndk-r10c /usr/local/android-ndk
 # Install apache ant
 RUN wget http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz
 RUN tar -xvzf apache-ant-1.8.4-bin.tar.gz
@@ -60,20 +61,20 @@ ENV JAVA_HOME /usr/lib/jvm/java-6-oracle
 
 #Install required packages
 RUN sudo apt-get -y install lib32z1
-RUN apt-get update && apt-get install  -y make git gcc openssl
-RUN apt-get update && apt-get install  -y libssl1.0.0 libssl-dev
-RUN apt-get update && apt-get install  -y tcl
-RUN apt-get -y install make
-RUN apt-get -y install lib32stdc++6
+RUN sudo apt-get update && apt-get install  -y make git gcc openssl
+RUN sudo apt-get update && apt-get install  -y libssl1.0.0 libssl-dev
+RUN sudo apt-get update && apt-get install  -y tcl
+RUN sudo apt-get -y install make
+RUN sudo apt-get -y install lib32stdc++6
 
 # Remove compressed files.
-RUN cd /; rm android-sdk_r23.0.2-linux.tgz && rm android-ndk64-r10b-linux-x86_64.tar.bz2 && rm apache-ant-1.8.4-bin.tar.gz
-# Install latest android (19 / 4.4.2) tools and system image.
+RUN cd /; rm android-sdk_r23.0.2-linux.tgz && rm apache-ant-1.8.4-bin.tar.gz
+# Install latest android (21 / 5.0.0) tools and system image.
 RUN VER=`android list sdk --no-ui | grep "Android SDK Platform-tools" | head -n 1 | awk '{print $1}' | sed -e 's/-//g'` && echo "y" | android update sdk --no-ui --filter $VER
 RUN VER=`android list sdk --no-ui | grep "Android SDK Tools" | head -n 1 | awk '{print $1}' | sed -e 's/-//g'` && echo "y" | android update sdk --no-ui --filter $VER
 RUN VER=`android list sdk --no-ui | grep "Android SDK Build-tools" | head -n 1 | awk '{print $1}' | sed -e 's/-//g'` && echo "y" | android update sdk --no-ui --filter $VER
 RUN VER=`android list sdk --no-ui | grep "SDK Platform Android 4.4W, API 20" | head -n 1 | awk '{print $1}' | sed -e 's/-//g'` && echo "y" | android update sdk --no-ui --filter $VER
-RUN VER=`android list sdk --no-ui | grep "SDK Platform Android L Preview" | head -n 1 | awk '{print $1}' | sed -e 's/-//g'` && echo "y" | android update sdk --no-ui --filter $VER
+RUN VER=`android list sdk --no-ui | grep "SDK Platform Android 5.0" | head -n 1 | awk '{print $1}' | sed -e 's/-//g'` && echo "y" | android update sdk --no-ui --filter $VER
 RUN VER=`android list sdk --no-ui | grep "SDK Platform Android 4.4.2, API 19" | head -n 1 | awk '{print $1}' | sed -e 's/-//g'` && echo "y" | android update sdk --no-ui --filter $VER
 RUN VER=`android list sdk --no-ui | grep "Android Support Repository" | head -n 1 | awk '{print $1}' | sed -e 's/-//g'` && echo "y" | android update sdk --no-ui --filter $VER
 RUN VER=`android list sdk --no-ui | grep "Android Support Library" | head -n 1 | awk '{print $1}' | sed -e 's/-//g'` && echo "y" | android update sdk --no-ui --filter $VER
